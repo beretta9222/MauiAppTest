@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppTest.View.MainPage"
+             xmlns:model ="clr-namespace:MauiAppTest.ViewModel"
+             >
+
+    <ContentPage.BindingContext>
+        <model:MainViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <RadioButton 
+                    Content="{Binding Debit_txt}"
+                    IsChecked="{Binding IsDeposit, Mode=TwoWay}"
+                    class="radiobtn"
+                    Grid.Column="0"/>
+                <RadioButton
+                    Content="{Binding Credit_txt}"
+                    IsChecked="{Binding IsCredit, Mode=TwoWay}"
+                    class="radiobtn"
+                    Grid.Column="1"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label 
+                    Text="{Binding Amount_txt}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Grid.Column="0"
+                    Grid.Row="0"/>
+                <Entry 
+                    Text="{Binding Amount, Mode=TwoWay}"
+                    Keyboard="Numeric"
+                    ClearButtonVisibility="WhileEditing"
+                    Grid.Column="1"
+                    Grid.Row="0"/>
+                <Label 
+                    Text="{Binding Percent_txt}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+                <Entry 
+                    Text="{Binding Percent, Mode=TwoWay}"
+                    Keyboard="Numeric"
+                    ClearButtonVisibility="WhileEditing"
+                    Grid.Column="1"
+                    Grid.Row="1"/>
+                <Label 
+                    Text="{Binding Period_txt}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Grid.Column="0"
+                    Grid.Row="2"/>
+                <Entry 
+                    Text="{Binding Period, Mode=TwoWay}"
+                    Keyboard="Numeric"
+                    ClearButtonVisibility="WhileEditing"
+                    Grid.Column="1"
+                    Grid.Row="2"/>
+                <Label 
+                    Text="{Binding Withdrawal_txt}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Grid.Column="0"
+                    Grid.Row="3"/>
+                <CheckBox 
+                    IsChecked="{Binding Withdrawal}" 
+                    IsEnabled="{Binding WithdrawalEnabled}"
+                    Grid.Column="1"
+                    Grid.Row="3"/>
+                <Button Text="{Binding Calculate_txt}"
+                        Command="{Binding CalculateCmd}"
+                        Grid.Column="0"
+                        Grid.Row="4"
+                        />
+            </Grid>
+            <Grid Grid.Row="2">
+                <CollectionView ItemsSource="{Binding CalculateItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label 
+                                    Text="{Binding Path=Text}"
+                                    Grid.Row="0"
+                                    TextColor="Black"
+                                    />
+                                <Label 
+                                    Text="{Binding Path=Value}"
+                                    Grid.Row="1"
+                                    TextColor="Gray"
+                                    />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
