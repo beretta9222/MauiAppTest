@@ -102,7 +102,7 @@
                 <CollectionView ItemsSource="{Binding CalculateItems}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid BackgroundColor="#333">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -110,12 +110,12 @@
                                 <Label 
                                     Text="{Binding Path=Text}"
                                     Grid.Row="0"
-                                    TextColor="Black"
+                                    TextColor="LightGray"
                                     />
                                 <Label 
                                     Text="{Binding Path=Value}"
                                     Grid.Row="1"
-                                    TextColor="Gray"
+                                    TextColor="DarkGray"
                                     />
                             </Grid>
                         </DataTemplate>

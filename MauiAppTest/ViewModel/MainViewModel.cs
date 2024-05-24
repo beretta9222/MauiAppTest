@@ -17,7 +17,7 @@ namespace MauiAppTest.ViewModel
 
         #region Переключатели  
 
-        private bool isDeposit;
+        private bool isDeposit = true;
         /// <summary>
         /// Если вклад
         /// </summary>
