@@ -1,4 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
+using CommunityToolkit.Mvvm.Input;
 using MauiAppTest.Model;
 using System.ComponentModel;
 using System.Globalization;
@@ -13,6 +17,7 @@ namespace MauiAppTest.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "") =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
         #endregion
 
         #region Переключатели  
@@ -130,6 +135,7 @@ namespace MauiAppTest.ViewModel
         {
             get
             {
+
                 return calculateItems;
             }
             set
