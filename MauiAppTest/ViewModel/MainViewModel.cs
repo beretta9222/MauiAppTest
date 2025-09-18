@@ -5,7 +5,6 @@
 using CommunityToolkit.Mvvm.Input;
 using MauiAppTest.Model;
 using System.ComponentModel;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 
 
@@ -130,12 +129,17 @@ namespace MauiAppTest.ViewModel
             }
         }
 
-        private List<OutputItem> calculateItems;
+        public List<string> Headers => ["1", "2"];
+
+        private List<OutputItem> calculateItems = new();
+
+        /// <summary>
+        /// Вывод данных дохода/сумма платежа
+        /// </summary>
         public List<OutputItem> CalculateItems
         {
             get
             {
-
                 return calculateItems;
             }
             set
@@ -144,7 +148,6 @@ namespace MauiAppTest.ViewModel
                 OnPropertyChanged(nameof(CalculateItems));
             }
         }
-
         #endregion
 
         #region текст и состояние элементов
@@ -181,79 +184,25 @@ namespace MauiAppTest.ViewModel
 
         private volatile object _locker = new();
 
-        private RelayCommand calculateCmd;
-        public RelayCommand CalculateCmd
-        {
-            get
-            {
-                return calculateCmd ?? (new RelayCommand(() =>
-                {
-                    Task.Run(() =>
-                    {
-                        Calculate();
-                    });
+        private RelayCommand? calculateCmd;
+        public RelayCommand CalculateCmd => calculateCmd ?? (new RelayCommand(() => { Calculate(); }));
 
-                }));
-            }
-        }
-
-        private void Calculate()
+        private async Task Calculate()
         {
             lock (_locker)
             {
-                List<OutputItem> section = new List<OutputItem>();
+                ICalculation calculation;
+
                 if (IsCredit)
                 {
-                    try
-                    {
-                        decimal payed = (Amount * ((Percent / 100.0m) / 12.0m)) / (1 - (decimal)Math.Pow((double)(1 + ((Percent / 100.0m) / 12.0m)), (-1) * Period));
-                        section.Add(new()
-                        {
-                            Text = "Сумма платежа",
-                            Value = $"{payed:N2}"
-                        });
-                    }
-                    catch(DivideByZeroException ex)
-                    {
-                        section.Add(new() { Text = "Ошибка", Value = "Невозможно взять кредит на 0 месецев" });
-                    }
+                    calculation = new CreditCalculation(Amount, Percent, (uint)Period);
                 }
-                else if(IsDeposit)
+                else
                 {
-                    DateTime from = DateTime.Now;
-                    DateTimeFormatInfo info = CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat;
-                    int i = 0;
-                    decimal total_summ = 0, calc_sum = Amount;
-                    do
-                    {
-                        var data = from.AddMonths(1);
-                        var tmp_days = (data.Date - from.Date).Days;
-                        if (tmp_days > Period - i)
-                        {
-                            tmp_days = Period - i;
-                        }
-                        decimal tmp_summ = decimal.Floor(calc_sum * Percent * tmp_days / (DateTime.IsLeapYear(data.Year) ? 366 : 365)) / 100.0m;
-                        section.Add(new() 
-                        { 
-                            Text = $"{info.MonthNames[data.Month - 1]} {data.Year}",
-                            Value = $"{tmp_summ:N2}"
-                        });
-                        i += tmp_days;
-                        from = data;
-                        if (Withdrawal)
-                            calc_sum += tmp_summ;
-                        total_summ += tmp_summ;
-                    }
-                    while (i < Period);
-                    section.Add(new() 
-                    { 
-                        Text = "Итого",
-                        Value = $"{total_summ:N2}" 
-                    });
+                    calculation = new DepositCalculation(Amount, Percent, (uint)Period, WithdrawalEnabled);
                 }
-                CalculateItems = section;
+                CalculateItems = calculation.Clalculation();
             }
-
         }
         #endregion
     }

@@ -4,11 +4,10 @@
              x:Class="MauiAppTest.View.MainPage"
              xmlns:model ="clr-namespace:MauiAppTest.ViewModel"
              >
-
     <ContentPage.BindingContext>
         <model:MainViewModel/>
     </ContentPage.BindingContext>
-    <ScrollView>
+    <ScrollView Padding="10">
         <VerticalStackLayout>
             <Grid>
                 <Grid.RowDefinitions>
@@ -16,111 +15,86 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-            </Grid>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <RadioButton 
+
+                <!--#region RadioButtons-->
+                <Grid Grid.Row="0" Margin="5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton 
                     Content="{Binding Debit_txt}"
                     IsChecked="{Binding IsDeposit, Mode=TwoWay}"
                     class="radiobtn"
                     Grid.Column="0"/>
-                <RadioButton
+                    <RadioButton
                     Content="{Binding Credit_txt}"
                     IsChecked="{Binding IsCredit, Mode=TwoWay}"
                     class="radiobtn"
                     Grid.Column="1"/>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Label 
+                </Grid>
+                <!--#endregion-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label 
                     Text="{Binding Amount_txt}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
                     Grid.Column="0"
                     Grid.Row="0"/>
-                <Entry 
+                    <Entry 
                     Text="{Binding Amount, Mode=TwoWay}"
                     Keyboard="Numeric"
                     ClearButtonVisibility="WhileEditing"
                     Grid.Column="1"
                     Grid.Row="0"/>
-                <Label 
+                    <Label 
                     Text="{Binding Percent_txt}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
                     Grid.Column="0"
                     Grid.Row="1"/>
-                <Entry 
+                    <Entry 
                     Text="{Binding Percent, Mode=TwoWay}"
                     Keyboard="Numeric"
                     ClearButtonVisibility="WhileEditing"
                     Grid.Column="1"
                     Grid.Row="1"/>
-                <Label 
+                    <Label 
                     Text="{Binding Period_txt}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
                     Grid.Column="0"
                     Grid.Row="2"/>
-                <Entry 
+                    <Entry 
                     Text="{Binding Period, Mode=TwoWay}"
                     Keyboard="Numeric"
                     ClearButtonVisibility="WhileEditing"
                     Grid.Column="1"
                     Grid.Row="2"/>
-                <Label 
+                    <Label 
                     Text="{Binding Withdrawal_txt}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"
                     Grid.Column="0"
                     Grid.Row="3"/>
-                <CheckBox 
+                    <CheckBox 
                     IsChecked="{Binding Withdrawal}" 
                     IsEnabled="{Binding WithdrawalEnabled}"
                     Grid.Column="1"
                     Grid.Row="3"/>
-                <Button Text="{Binding Calculate_txt}"
+                    <Button Text="{Binding Calculate_txt}"
                         Command="{Binding CalculateCmd}"
                         Grid.Column="0"
                         Grid.Row="4"
                         />
-            </Grid>
-            <Grid Grid.Row="2">
-                <CollectionView ItemsSource="{Binding CalculateItems}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid BackgroundColor="#333">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Label 
-                                    Text="{Binding Path=Text}"
-                                    Grid.Row="0"
-                                    TextColor="LightGray"
-                                    />
-                                <Label 
-                                    Text="{Binding Path=Value}"
-                                    Grid.Row="1"
-                                    TextColor="DarkGray"
-                                    />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <CollectionView ItemsSource="{Binding CalculateItems}" Header="{Binding Headers}"/>
+                </Grid>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
