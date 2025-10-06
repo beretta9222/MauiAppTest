@@ -199,7 +199,7 @@ namespace MauiAppTest.ViewModel
                 }
                 else
                 {
-                    calculation = new DepositCalculation(Amount, Percent, (uint)Period, WithdrawalEnabled);
+                    calculation = new DepositCalculation(Amount, Percent, (uint)Period, Withdrawal);
                 }
                 CalculateItems = calculation.Clalculation();
             }

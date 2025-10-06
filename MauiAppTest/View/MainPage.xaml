@@ -82,7 +82,7 @@
                     Grid.Column="0"
                     Grid.Row="3"/>
                     <CheckBox 
-                    IsChecked="{Binding Withdrawal}" 
+                    IsChecked="{Binding Withdrawal, Mode=TwoWay}" 
                     IsEnabled="{Binding WithdrawalEnabled}"
                     Grid.Column="1"
                     Grid.Row="3"/>
